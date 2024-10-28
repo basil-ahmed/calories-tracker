@@ -1,70 +1,103 @@
-# Getting Started with Create React App
+# Calories Tracker
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Project Description
 
-## Available Scripts
+The **Calories Tracker** is a web application that helps users monitor their daily food intake by logging calories consumed and comparing it to a daily calorie goal. This tool is designed to assist users in maintaining dietary targets, with a simple interface that supports food search, calorie tracking, and progress visualization through a neon-inspired, dark-themed UI.
 
-In the project directory, you can run:
+## Features
+- **Food Search**: Allows users to search for food items by name and retrieve calorie information using the Nutritionix API.
+- **Daily Log**: Users can add searched food items to a daily log, displaying the calorie count of each item.
+- **Calorie Goal Setting**: Users can set a custom daily calorie goal, which is used to calculate their progress.
+- **Progress Tracking**: A progress bar visually indicates the percentage of the calorie goal met, with a total count of logged calories.
 
-### `npm start`
+## Tech Stack
+- **Frontend**: React.js for building the UI components and managing state.
+- **Styling**: Custom CSS for a neon-inspired, dark-mode aesthetic.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## API Integration
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+The **Nutritionix API** is used to retrieve calorie and nutritional information:
+1. **Instant Search API**: Retrieves food items based on a search query entered by the user.
+2. **Natural Language Nutrients API**: Provides detailed calorie and nutritional information for specific food items.
 
-### `npm test`
+### Environment Variables
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+API credentials are stored securely in a `.env` file to prevent them from being exposed in the codebase. The `.env` file includes the following variables:
+```plaintext
+REACT_APP_NUTRITIONIX_APP_ID=your_app_id
+REACT_APP_NUTRITIONIX_APP_KEY=your_app_key
+```
 
-### `npm run build`
+These environment variables are accessed in the code through `process.env.REACT_APP_NUTRITIONIX_APP_ID` and `process.env.REACT_APP_NUTRITIONIX_APP_KEY`.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Setup and Run Instructions
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Prerequisites
+- Ensure Node.js and npm are installed on your machine.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Installation
+1. **Clone the Repository**:
+   ```bash
+   git clone https://github.com/basil-ahmed/calories-tracker.git
+   cd calories-tracker
+   ```
 
-### `npm run eject`
+2. **Install Dependencies**:
+   ```bash
+   npm install
+   ```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+3. **Set Up Environment Variables**:
+   - Create a `.env` file in the project root.
+   - Add the Nutritionix API credentials as shown above.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+4. **Run the Application**:
+   ```bash
+   npm start
+   ```
+   This command will launch the development server, and the application should be accessible at [http://localhost:3000](http://localhost:3000).
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### Usage
+1. **Search for Food**: Enter a food name in the search bar and click "Search" or press "Enter" to retrieve calorie information.
+2. **Add to Log**: Click "Add to Log" next to a food item to add it to your daily log and update your total calorie count.
+3. **Set Calorie Goal**: Click the "Set Goal" button, enter a target calorie count, and save. This goal will be reflected in the progress bar.
+4. **Track Progress**: The progress bar will display the percentage of your daily calorie goal reached.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Code Example
 
-## Learn More
+The following snippet demonstrates how API requests are made using the credentials stored in environment variables:
+```javascript
+const searchFood = async () => {
+  try {
+    const response = await fetch(`https://trackapi.nutritionix.com/v2/search/instant?query=${searchTerm}`, {
+      method: 'GET',
+      headers: {
+        'x-app-id': process.env.REACT_APP_NUTRITIONIX_APP_ID,
+        'x-app-key': process.env.REACT_APP_NUTRITIONIX_APP_KEY,
+      },
+    });
+    const data = await response.json();
+    setFoodData(data.common);
+  } catch (error) {
+    console.error('Error fetching data:', error);
+  }
+};
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Security Considerations
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+The `.env` file is listed in `.gitignore` to ensure API credentials remain private and are not committed to version control.
 
-### Code Splitting
+## Credits
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### AI Assistance
+This project was developed with the support of OpenAI’s ChatGPT. AI assistance was utilized in the following areas:
+- **Component Structure**: Initial layout and structure of React components.
+- **CSS Styling**: Guidance on implementing a neon-inspired dark mode for better visual appeal.
+- **Progress Bar and Goal Setting**: Suggestions for displaying the calorie goal and progress bar with a clean design.
+  
+All AI-generated code was reviewed, tested, and adjusted as necessary.
 
-### Analyzing the Bundle Size
+## License
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+This project is licensed under the MIT License.
