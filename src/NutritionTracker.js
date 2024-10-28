@@ -19,7 +19,7 @@ function NutritionTracker() {
         },
       });
       const data = await response.json();
-      setFoodData(data.common);
+      setFoodData(data.common);  // Update the food data state with the search results
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -37,16 +37,16 @@ function NutritionTracker() {
         body: JSON.stringify({ query: foodName })
       });
       const data = await response.json();
-      const calories = data.foods[0].nf_calories;
+      const calories = data.foods[0].nf_calories; // Extract calories from the response
       setTotalCalories((prevTotal) => parseFloat((parseFloat(prevTotal) + parseFloat(calories)).toFixed(1)));
-      setDailyLog([...dailyLog, { name: foodName, calories }]);
-      setFoodData([]);
+      setDailyLog([...dailyLog, { name: foodName, calories }]); // Add the food to the daily log
+      setFoodData([]); // Clear the search results
     } catch (error) {
       console.error('Error:', error);
     }
   };
   
-
+  // Function to handle the submission of the daily calorie goal 
   const handleGoalSubmit = (e) => {
     e.preventDefault();
     const goal = parseInt(e.target.goal.value);
@@ -56,6 +56,7 @@ function NutritionTracker() {
     setShowGoalInput(false);
   };
 
+    // Calculate the progress percentage towards the daily goal
   const progressPercentage = Math.min((totalCalories / dailyGoal) * 100, 100);
 
   return (
